@@ -1,0 +1,36 @@
+{
+  "name": "waitress",
+  "version": "1.0.0",
+  "description": "A simple discord bot",
+  "homepage": "https://github.com/william-le/waitress#readme",
+  "bugs": {
+    "url": "https://github.com/william-le/waitress/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/william-le/waitress.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0"
+  }
+}
