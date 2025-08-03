@@ -12,9 +12,11 @@
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.tsx",
   "scripts": {
+    "start": "tsx index.tsx",
+    "dev": "tsx watch index.tsx",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -30,6 +32,7 @@
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "3.6.2",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0"
   }
