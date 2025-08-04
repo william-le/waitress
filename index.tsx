@@ -1,10 +1,10 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
-import 'dotenv/config';
 import { commands, registerCommands } from './commands/index.js';
+import 'dotenv/config';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-client.once(Events.ClientReady, (_readyClient) => {
+client.once(Events.ClientReady, () => {
   void (async () => {
     try {
       const token = process.env.TOKEN;
@@ -12,24 +12,18 @@ client.once(Events.ClientReady, (_readyClient) => {
       const guildId = process.env.GUILD_ID;
 
       if (!token || !clientId || !guildId) {
-        console.error('Missing required environment variables:');
-        if (!token) console.error('- TOKEN is missing');
-        if (!clientId) console.error('- CLIENT_ID is missing');
-        if (!guildId) console.error('- GUILD_ID is missing');
         throw new Error(
-          'Missing TOKEN, CLIENT_ID, or GUILD_ID environment variables'
+          'Missing required environment variables: TOKEN, CLIENT_ID, or GUILD_ID'
         );
       }
 
       await registerCommands(token, clientId, guildId);
-    } catch (error) {
-      console.error('Error during initialization:', error);
+    } catch {
       process.exit(1);
     }
   })();
 });
 
-// Handle slash command interactions
 client.on(Events.InteractionCreate, (interaction) => {
   void (async () => {
     if (!interaction.isChatInputCommand()) return;
@@ -46,13 +40,12 @@ client.on(Events.InteractionCreate, (interaction) => {
       const errorMessage = 'There was an error while executing this command!';
 
       if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({ content: errorMessage, ephemeral: true });
+        await interaction.followUp({ content: errorMessage, flags: 64 });
       } else {
-        await interaction.reply({ content: errorMessage, ephemeral: true });
+        await interaction.reply({ content: errorMessage, flags: 64 });
       }
     }
   })();
 });
 
-// Log in to Discord with your client's token
 void client.login(process.env.TOKEN);

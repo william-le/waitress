@@ -8,10 +8,8 @@ export interface Command {
 
 export const commands = new Collection<string, Command>();
 
-// Manually register commands to avoid dynamic imports
 commands.set(pingCommand.data.name, pingCommand);
 
-// Register slash commands with Discord
 export async function registerCommands(token: string, clientId: string, guildId: string): Promise<void> {
   const rest = new REST().setToken(token);
   
