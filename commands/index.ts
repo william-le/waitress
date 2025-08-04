@@ -1,5 +1,6 @@
 import { Collection, REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import * as pingCommand from './ping.js';
+import * as dailyCommand from './daily.js';
 
 export interface Command {
   data: SlashCommandBuilder;
@@ -9,6 +10,7 @@ export interface Command {
 export const commands = new Collection<string, Command>();
 
 commands.set(pingCommand.data.name, pingCommand);
+commands.set(dailyCommand.data.name, dailyCommand);
 
 export async function registerCommands(token: string, clientId: string, guildId: string): Promise<void> {
   const rest = new REST().setToken(token);
