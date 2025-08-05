@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 
 const dailyClaims = new Set<string>();
+const userCurrency = new Map<string, number>();
 
 const getTodayKey = (): string => {
   return new Date().toISOString().split('T')[0];
@@ -61,8 +62,14 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
   dailyClaims.add(userTodayKey);
   
+  // Award currency (100 coins per daily)
+  const currentBalance = userCurrency.get(userId) || 0;
+  const reward = 100;
+  userCurrency.set(userId, currentBalance + reward);
+  const newBalance = currentBalance + reward;
+  
   await interaction.reply({ 
-    content: `🎉 Daily claimed! You were in **${voiceChannel.name}** with ${memberCount.toString()} people.`, 
+    content: `🎉 Daily claimed! You earned **${reward.toString()} coins** 🪙\nYou were in **${voiceChannel.name}** with ${memberCount.toString()} people.\nBalance: **${newBalance.toString()} coins**`, 
     flags: 64 
   });
 }

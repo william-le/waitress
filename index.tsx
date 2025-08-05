@@ -1,23 +1,15 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import { commands, registerCommands } from './commands/index.js';
-import 'dotenv/config';
+import { ENV } from './types/env.ts';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
+});
 
 client.once(Events.ClientReady, () => {
   void (async () => {
     try {
-      const token = process.env.TOKEN;
-      const clientId = process.env.CLIENT_ID;
-      const guildId = process.env.GUILD_ID;
-
-      if (!token || !clientId || !guildId) {
-        throw new Error(
-          'Missing required environment variables: TOKEN, CLIENT_ID, or GUILD_ID'
-        );
-      }
-
-      await registerCommands(token, clientId, guildId);
+      await registerCommands(ENV.TOKEN, ENV.CLIENT_ID, ENV.GUILD_ID);
     } catch {
       process.exit(1);
     }
