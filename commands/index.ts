@@ -1,6 +1,13 @@
-import { Collection, REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import {
+  Collection,
+  REST,
+  Routes,
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+} from 'discord.js';
 import * as pingCommand from './ping.js';
 import * as dailyCommand from './daily.js';
+import * as balanceCommand from './balance.js';
 
 export interface Command {
   data: SlashCommandBuilder;
@@ -11,17 +18,23 @@ export const commands = new Collection<string, Command>();
 
 commands.set(pingCommand.data.name, pingCommand);
 commands.set(dailyCommand.data.name, dailyCommand);
+commands.set(balanceCommand.data.name, balanceCommand);
 
-export async function registerCommands(token: string, clientId: string, guildId: string): Promise<void> {
+export async function registerCommands(
+  token: string,
+  clientId: string,
+  guildId: string
+): Promise<void> {
   const rest = new REST().setToken(token);
-  
-  const commandData = Array.from(commands.values()).map(command => command.data.toJSON());
+
+  const commandData = Array.from(commands.values()).map((command) =>
+    command.data.toJSON()
+  );
 
   try {
-    await rest.put(
-      Routes.applicationGuildCommands(clientId, guildId),
-      { body: commandData },
-    );
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+      body: commandData,
+    });
   } catch (error) {
     throw new Error(`Failed to register commands: ${String(error)}`);
   }
